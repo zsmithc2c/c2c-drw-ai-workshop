@@ -1,6 +1,6 @@
 {
   "name": "Agno Agent Dev",
-  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "image": "artifacts.drwholdings.com/docker/devcontainers/python:3.11",
   "postCreateCommand": "pip install --quiet agno openai python-dotenv",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
@@ -13,8 +13,5 @@
       ]
     }
   },
-  "forwardPorts": [8000],
-  "settings": {
-    "terminal.integrated.defaultProfile.linux": "bash"
-  }
+  "forwardPorts": [8000]
 }
