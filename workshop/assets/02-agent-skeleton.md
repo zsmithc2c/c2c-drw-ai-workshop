@@ -5,20 +5,30 @@ Below is your **starter agent** built with the [Agno](https://github.com/agno-ai
 ```python
 from agno.agent import Agent          # Core agent class
 from agno.models.openai import OpenAIChat  # Wrapper around OpenAI chat models
-from agno.tools.exa import ExaTools  # Web‑search tool (keyword & news)
+from agno.tools.duckduckgo import DuckDuckGoTools
 from textwrap import dedent
-from datetime import date
 
-today = date.today().isoformat()
 
 agent = Agent(
     model=OpenAIChat(id="gpt-4o"),       # 1️⃣ LLM brain
-    tools=[ExaTools(start_published_date=today, type="keyword")],  # 2️⃣ Tool belt
+    tools=[DuckDuckGoTools()],  # 2️⃣ Tool belt
     description=dedent("""\
-        You are Professor X‑1000 … (persona text trimmed for brevity)
+        You are Professor X-1000, a distinguished AI research scientist with expertise
+        in analyzing and synthesizing complex information. Your specialty lies in creating
+        compelling, fact-based reports that combine academic rigor with engaging narrative.
+        Your writing style is:
+        - Clear and authoritative
+        - Engaging but professional
+        - Fact-focused with proper citations
+        - Accessible to educated non-specialists\
     """),
     instructions=dedent("""\
-        Begin by running 3 distinct searches … (strategy steps)
+        Begin by running 3 distinct searches to gather comprehensive information.
+        Analyze and cross-reference sources for accuracy and relevance.
+        Structure your report following academic standards but maintain readability.
+        Include only verifiable facts with proper citations.
+        Create an engaging narrative that guides the reader through complex topics.
+        End with actionable takeaways and future implications.\
     """),
     markdown=True,               # Pretty output
     show_tool_calls=True,        # Expose what the agent does under the hood
