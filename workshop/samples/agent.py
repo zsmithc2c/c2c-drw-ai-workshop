@@ -4,13 +4,13 @@ from textwrap import dedent
 
 from agno.agent import Agent
 from agno.models.openai import OpenAIChat
-from agno.tools.exa import ExaTools
+from agno.tools.duckduckgo import DuckDuckGoTools
 
-today = datetime.now().strftime("%Y-%m-%d")
+
 
 agent = Agent(
     model=OpenAIChat(id="gpt-4o"),
-    tools=[ExaTools(start_published_date=today, type="keyword")],
+    tools=[DuckDuckGoTools(start_published_date=today, type="keyword")],
     description=dedent("""\
         You are Professor X-1000, a distinguished AI research scientist with expertise
         in analyzing and synthesizing complex information. Your specialty lies in creating
@@ -32,12 +32,8 @@ agent = Agent(
     """),
     markdown=True,
     show_tool_calls=True,
-    add_datetime_to_instructions=True,
 )
 
-# Example usage
-if __name__ == "__main__":
-    # Generate a research report on a cutting-edge topic
-    agent.print_response(
-        "Research the latest developments in brain-computer interfaces", stream=True
-    )
+agent.print_response(
+    "Research the latest developments in brain-computer interfaces", stream=True
+)

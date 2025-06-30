@@ -19,38 +19,49 @@ Large models know a *lot*, but not:
 3. **Retriever** – Given a query, finds the *k* most relevant chunks.
 4. **LLM** – Gets the retrieved text prepended to the user question.
 
-## Quick‑start with Agnō
+## Quick‑start with Agno
+
+Start PostgreSQL with `pgvector` extension pre-installed:
+
+```bash
+docker compose up -d
+```
+
+| Source | What you’ll grab | Quick link |
+| --- | --- | --- |
+| NVIDIA Investor Relations → Financial Reports → Quarterly Results | A curated packet with: press release, slide deck, and direct PDF link to Form 10‑Q. | https://investor.nvidia.com/financials/ |
+| SEC EDGAR (CIK 1045810) | The legally filed 10‑Q PDF. More reliable if the IR site is down. | https://www.sec.gov/edgar/browse/?CIK=1045810 |
+| Nasdaq “NVDA SEC Filings” | Handy listing of 10‑Qs/10‑Ks with one‑click PDFs. | https://www.nasdaq.com/market-activity/stocks/nvda/sec-filings |
 
 Below is a fully‑working snippet that loads a PDF cookbook and lets you ask questions about it.
 
 ```python
 from agno.agent import Agent
 from agno.models.openai import OpenAIChat
-from agno.knowledge.pdf_url import PDFUrlKnowledgeBase
+from agno.knowledge.pdf import PDFKnowledgeBase
 from agno.vectordb.pgvector import PgVector, SearchType
 
 DB_URL = "postgresql+psycopg://ai:ai@localhost:5532/ai"
 
 knowledge_base = PDFUrlKnowledgeBase(
-    urls=["https://agno-public.s3.amazonaws.com/recipes/ThaiRecipes.pdf"],
-    vector_db=PgVector(table_name="recipes", db_url=DB_URL, search_type=SearchType.hybrid),
+    urls=["$RETRIEVED FROM ABOVE"],
+    vector_db=PgVector(table_name="financial_reports", db_url=DB_URL, search_type=SearchType.hybrid),
 )
-knowledge_base.load(upsert=True)  # <1> Embeds & stores paragraphs
+knowledge_base.load(load=True,upsert=True)
 
 agent = Agent(
     model=OpenAIChat(id="gpt-4o"),
-    knowledge=knowledge_base,      # <2> Attach KB for retrieval
-    add_references=True,           # <3> Show source links in the answer
-    search_knowledge=False,        # Skip web search because we only care about the PDF
+    knowledge=knowledge_base,
+    search_knowledge=True,
     markdown=True,
 )
 
-agent.print_response("How do I make chicken and galangal in coconut milk soup")
+agent.print_response("What what NVDA's quarterly revenue in 2024?", stream=True)
 ```
 
 ## Exercise for students
 
-1. Replace the PDF URL with your own class notes.
+1. Replace the PDF with your own class notes.
 2. Ask "Explain the three most important points for tomorrow’s quiz."
 3. Notice the citations—click them to jump to the exact page.
 
