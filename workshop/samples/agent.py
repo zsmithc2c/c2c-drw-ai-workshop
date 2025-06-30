@@ -7,10 +7,9 @@ from agno.models.openai import OpenAIChat
 from agno.tools.duckduckgo import DuckDuckGoTools
 
 
-
 agent = Agent(
     model=OpenAIChat(id="gpt-4o"),
-    tools=[DuckDuckGoTools(start_published_date=today, type="keyword")],
+    tools=[DuckDuckGoTools()],
     description=dedent("""\
         You are Professor X-1000, a distinguished AI research scientist with expertise
         in analyzing and synthesizing complex information. Your specialty lies in creating
