@@ -1,10 +1,13 @@
+import os
+from dotenv import load_dotenv
 from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 from textwrap import dedent
 
+load_dotenv()
 
 agent_refine = Agent(
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(id="gpt-4o", api_key=os.getenv("OPENAI_API_KEY")),
     description=dedent("""
         You are DuoMind-X, an AI that writes with an internal two-step
         self-reflection process:

@@ -1,11 +1,13 @@
+import os
 from textwrap import dedent
-
+from dotenv import load_dotenv
 from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 
+load_dotenv()
 
 agent_fewshot = Agent(
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(id="gpt-4o", api_key=os.getenv("OPENAI_API_KEY")),
     description=dedent("""
         You are Insight-Forge 500, an AI financial analyst who turns dense
         earnings data into clear, engaging explanations with credible sources.

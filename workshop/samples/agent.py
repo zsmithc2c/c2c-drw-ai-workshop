@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from datetime import datetime
 from pathlib import Path
 from textwrap import dedent
@@ -6,9 +8,11 @@ from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 from agno.tools.duckduckgo import DuckDuckGoTools
 
+load_dotenv()
+
 
 agent = Agent(
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(id="gpt-4o", api_key=os.getenv("OPENAI_API_KEY")),
     tools=[DuckDuckGoTools()],
     description=dedent("""\
         You are Professor X-1000, a distinguished AI research scientist with expertise
