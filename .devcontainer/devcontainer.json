@@ -3,9 +3,9 @@
   "image": "artifacts.drwholdings.com/docker/devcontainers/python:3.11",
   "postCreateCommand": "python -m ensurepip --upgrade && python -m pip install --upgrade pip && python -m pip install -r requirements.txt",
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-
   "customizations": {
     "vscode": {
       "extensions": [
@@ -13,11 +13,9 @@
         "ms-python.vscode-pylance"
       ],
       "settings": {
-        
         "python.defaultInterpreterPath": "/usr/local/bin/python"
       }
     }
   },
-
   "forwardPorts": [8000]
 }
