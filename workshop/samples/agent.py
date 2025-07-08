@@ -5,14 +5,14 @@ from pathlib import Path
 from textwrap import dedent
 
 from agno.agent import Agent
-from agno.models.openai import OpenAIChat
+from agno.models.azure import AzureOpenAI
 from agno.tools.duckduckgo import DuckDuckGoTools
 
 load_dotenv()
 
 
 agent = Agent(
-    model=OpenAIChat(id="gpt-4o", api_key=os.getenv("OPENAI_API_KEY")),
+    model=AzureOpenAI(id="gpt-4o"),
     tools=[DuckDuckGoTools()],
     description=dedent("""\
         You are Professor X-1000, a distinguished AI research scientist with expertise
